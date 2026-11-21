@@ -1,0 +1,14 @@
+# Secrets : seul .env.exemple est versionné.
+.env
+
+# Environnements et caches
+myVenv/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Données produites : elles se reconstruisent avec python -m mercier.cli chaine
+*.db
+zone_brute/
+java/*.class

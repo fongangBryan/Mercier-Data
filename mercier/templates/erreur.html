@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titre %}Erreur {{ code }} - Mercier Data{% endblock %}
+{% block contenu %}
+<div class="carte bloc erreur-page">
+    <h1>Erreur {{ code }}</h1>
+    <p>{{ message }}</p>
+    <p><a href="/">Retour au tableau de bord</a></p>
+</div>
+{% endblock %}

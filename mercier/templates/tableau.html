@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block titre %}Tableau de bord - Mercier Data{% endblock %}
+{% block contenu %}
+
+<div class="accueil">
+    <div>
+        <h1>Tableau de bord</h1>
+        <p>
+            {% if filtre %}Boutique {{ filtre }}, octobre 2026.
+            {% elif compte.role == 'gerant' %}Boutique {{ compte.boutique }}, octobre 2026.
+            {% else %}Vue consolidée du réseau, octobre 2026.{% endif %}
+        </p>
+        {% if lot and lot.rejetees %}
+        <span class="alerte">{{ lot.rejetees }} lignes écartées au dernier chargement</span>
+        {% endif %}
+    </div>
+    {% if visibles | length > 1 %}
+    <form method="get" action="/" class="filtre">
+        <label for="boutique">Périmètre</label>
+        <select name="boutique" id="boutique" onchange="this.form.submit()">
+            <option value="">Toutes les boutiques</option>
+            {% for code in visibles %}
+            <option value="{{ code }}" {{ 'selected' if filtre == code }}>{{ code }}</option>
+            {% endfor %}
+        </select>
+        <noscript><button type="submit">Filtrer</button></noscript>
+    </form>
+    {% endif %}
+</div>
+
+<div class="grille g4">
+    <div class="carte tuile">
+        <div class="libelle">Chiffre d'affaires</div>
+        <div class="valeur">{{ synthese.chiffre_affaires | euros }} €</div>
+        <div class="detail">
+            {% if objectif %}{{ taux_objectif }} % de l'objectif de {{ objectif | euros }} €
+            {% else %}objectif non défini{% endif %}
+        </div>
+    </div>
+    <div class="carte tuile">
+        <div class="libelle">Ventes</div>
+        <div class="valeur">{{ synthese.ventes }}</div>
+        <div class="detail">sur {{ synthese.semaines }} semaines</div>
+    </div>
+    <div class="carte tuile">
+        <div class="libelle">Pièces vendues</div>
+        <div class="valeur">{{ synthese.pieces }}</div>
+        <div class="detail">
+            {{ (synthese.pieces / synthese.ventes if synthese.ventes else 0) | nombre }}
+            articles par vente en moyenne
+        </div>
+    </div>
+    <div class="carte tuile">
+        <div class="libelle">Panier moyen</div>
+        <div class="valeur">{{ synthese.panier_moyen | euros }} €</div>
+        <div class="detail">{{ synthese.remises | euros }} € de remises accordées</div>
+    </div>
+</div>
+
+<div class="grille g2-large">
+    <section class="carte bloc">
+        <h2>Évolution hebdomadaire</h2>
+        {% if semaines %}
+        <div class="barres">
+            {% for s in semaines %}
+            <div class="colonne" title="{{ s.periode }} : {{ s.chiffre_affaires | euros }} €">
+                <span class="montant">{{ s.chiffre_affaires | euros }} €</span>
+                <i style="height: {{ [s.hauteur, 2] | max }}%"></i>
+                <span class="periode">{{ s.periode }}</span>
+                {% if s.variation is not none %}
+                <span class="variation {{ 'hausse' if s.variation >= 0 else 'baisse' }}">
+                    {{ '▲' if s.variation >= 0 else '▼' }} {{ s.variation | abs }} %
+                </span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="vide">Aucune vente sur ce périmètre.</p>
+        {% endif %}
+    </section>
+
+    <section class="carte bloc">
+        <h2>Objectifs</h2>
+        {% for b in boutiques %}
+        <div class="jauge">
+            <div class="ligne">
+                <b>{{ b.libelle }}</b>
+                <span class="code">{{ b.boutique }}</span>
+                <span class="chiffres">{{ b.chiffre_affaires | euros }} € sur {{ b.objectif | euros }} €</span>
+            </div>
+            <div class="piste {{ 'atteint' if (b.taux or 0) >= 100 }}">
+                <i style="width: {{ [b.taux or 0, 100] | min | round | int }}%"></i>
+            </div>
+            <div class="note">
+                {% if not b.objectif %}Pas d'objectif défini
+                {% elif b.ecart >= 0 %}Objectif dépassé de {{ (b.taux - 100) | round | int }} %
+                {% else %}Il manque {{ (-b.ecart) | euros }} €{% endif %}
+            </div>
+        </div>
+        {% else %}
+        <p class="vide">Aucune boutique dans ce périmètre.</p>
+        {% endfor %}
+    </section>
+</div>
+
+<div class="grille g2">
+    <section class="carte bloc">
+        <h2>Par catégorie</h2>
+        <table>
+            <thead>
+                <tr><th>Catégorie</th><th class="nombre">Pièces</th>
+                    <th class="nombre">Chiffre d'affaires</th><th class="nombre">Marge</th></tr>
+            </thead>
+            <tbody>
+                {% for c in categories %}
+                <tr><td>{{ c.categorie }}</td><td class="nombre">{{ c.pieces }}</td>
+                    <td class="nombre">{{ c.chiffre_affaires | euros }} €</td>
+                    <td class="nombre">{{ c.marge | euros }} €</td></tr>
+                {% else %}
+                <tr><td colspan="4" class="vide">Aucune vente.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+
+    <section class="carte bloc">
+        <h2>Meilleures ventes</h2>
+        <table>
+            <thead>
+                <tr><th>Référence</th><th>Article</th><th class="nombre">Pièces</th>
+                    <th class="nombre">Chiffre d'affaires</th></tr>
+            </thead>
+            <tbody>
+                {% for m in meilleures %}
+                <tr><td class="code">{{ m.reference }}</td>
+                    <td>{{ m.nom }} <small>{{ m.taille }}</small></td>
+                    <td class="nombre">{{ m.pieces }}</td>
+                    <td class="nombre">{{ m.chiffre_affaires | euros }} €</td></tr>
+                {% else %}
+                <tr><td colspan="4" class="vide">Aucune vente.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</div>
+
+{% endblock %}

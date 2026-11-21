@@ -1,0 +1,19 @@
+reference,nom,categorie,taille,couleur,prix_achat,prix_vente,stock
+TSH-BLA-S,Tee-shirt col rond,tee-shirt,S,blanc,6.80,19.90,42
+TSH-BLA-M,Tee-shirt col rond,tee-shirt,M,blanc,6.80,19.90,58
+TSH-NOI-M,Tee-shirt col rond,tee-shirt,M,noir,6.80,19.90,51
+TSH-NOI-L,Tee-shirt col rond,tee-shirt,L,noir,6.80,19.90,30
+CHE-BLE-M,Chemise en lin,chemise,M,bleu,21.50,69.00,18
+CHE-BLE-L,Chemise en lin,chemise,L,bleu,21.50,69.00,14
+CHE-ECR-M,Chemise en lin,chemise,M,ecru,21.50,69.00,11
+PAN-NOI-38,Pantalon droit,pantalon,38,noir,24.00,79.00,16
+PAN-NOI-40,Pantalon droit,pantalon,40,noir,24.00,79.00,9
+PAN-BEI-40,Pantalon droit,pantalon,40,beige,24.00,79.00,12
+PUL-GRI-M,Pull col montant,pull,M,gris,32.00,95.00,22
+PUL-GRI-L,Pull col montant,pull,L,gris,32.00,95.00,17
+PUL-MAR-M,Pull col montant,pull,M,marine,32.00,95.00,8
+VES-MAR-M,Veste de mi-saison,veste,M,marine,58.00,169.00,7
+VES-MAR-L,Veste de mi-saison,veste,L,marine,58.00,169.00,5
+ROB-NOI-36,Robe portefeuille,robe,36,noir,29.00,89.00,13
+ROB-NOI-38,Robe portefeuille,robe,38,noir,29.00,89.00,19
+ACC-CEI-U,Ceinture cuir,accessoire,U,brun,9.40,34.90,36

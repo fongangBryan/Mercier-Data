@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% block titre %}Administration - Mercier Data{% endblock %}
+{% block contenu %}
+
+<div class="accueil">
+    <div>
+        <h1>Administration</h1>
+        <p>Création des boutiques et nomination des gérants.</p>
+    </div>
+</div>
+
+{% if message %}<div class="message succes">{{ message }}</div>{% endif %}
+{% if erreur %}<div class="message erreur">{{ erreur }}</div>{% endif %}
+
+<section class="carte bloc">
+    <h2>Les boutiques du réseau</h2>
+    <table>
+        <thead>
+            <tr><th>Code</th><th>Ville</th><th class="nombre">Surface</th>
+                <th class="nombre">Objectif</th><th class="nombre">CA réalisé</th>
+                <th>Gérant</th><th>État</th><th></th></tr>
+        </thead>
+        <tbody>
+            {% for b in boutiques %}
+            <tr class="{{ '' if b.active else 'inactive' }}">
+                <td class="code">{{ b.code }}</td>
+                <td>{{ b.ville or 'vente en ligne' }}</td>
+                <td class="nombre">{{ b.surface_m2 }} m²</td>
+                <td class="nombre">{{ b.objectif_mensuel | euros }} €</td>
+                <td class="nombre">{{ b.chiffre_affaires | euros(2) }} €</td>
+                <td>{{ b.gerant or '—' }}</td>
+                <td><span class="badge {{ 'active' if b.active else 'inactive' }}">
+                    {{ 'active' if b.active else 'inactive' }}</span></td>
+                <td>
+                    <form method="post" action="/administration/boutique/{{ b.code }}/etat">
+                        <input type="hidden" name="active" value="{{ 0 if b.active else 1 }}">
+                        <button type="submit" class="lien">{{ 'désactiver' if b.active else 'réactiver' }}</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<div class="grille g2">
+    <section class="carte bloc">
+        <h2>Créer une boutique</h2>
+        <form method="post" action="/administration/boutique" class="formulaire">
+            <label for="code">Code</label>
+            <input id="code" name="code" placeholder="nantes-graslin" required
+                   pattern="[a-z][a-z0-9\-]{2,29}">
+            <label for="ville">Ville</label>
+            <input id="ville" name="ville" placeholder="Nantes">
+            <label for="surface_m2">Surface en mètres carrés</label>
+            <input id="surface_m2" name="surface_m2" type="number" min="0" value="60">
+            <label for="objectif_mensuel">Objectif mensuel en euros</label>
+            <input id="objectif_mensuel" name="objectif_mensuel" type="number" min="0"
+                   step="100" value="2500">
+            <button type="submit">Créer la boutique</button>
+        </form>
+    </section>
+
+    <section class="carte bloc">
+        <h2>Nommer un gérant</h2>
+        <form method="post" action="/administration/gerant" class="formulaire">
+            <label for="boutique">Boutique</label>
+            <select id="boutique" name="boutique" required>
+                {% for b in boutiques if b.active %}
+                <option value="{{ b.code }}">{{ b.code }}</option>
+                {% endfor %}
+            </select>
+            <label for="identifiant">Identifiant</label>
+            <input id="identifiant" name="identifiant" placeholder="sophie" required>
+            <label for="nom">Nom complet</label>
+            <input id="nom" name="nom" placeholder="Sophie Garnier" required>
+            <label for="motdepasse">Mot de passe provisoire</label>
+            <input id="motdepasse" name="motdepasse" type="password" minlength="8"
+                   autocomplete="new-password" required>
+            <button type="submit">Nommer le gérant</button>
+        </form>
+    </section>
+</div>
+
+<section class="carte bloc">
+    <h2>Les comptes</h2>
+    <table>
+        <thead><tr><th>Identifiant</th><th>Nom</th><th>Rôle</th><th>Boutique</th><th>Créé le</th></tr></thead>
+        <tbody>
+            {% for c in comptes %}
+            <tr><td class="code">{{ c.identifiant }}</td><td>{{ c.nom }}</td>
+                <td><span class="badge {{ c.role }}">{{ c.role }}</span></td>
+                <td>{{ c.boutique or '—' }}</td><td>{{ c.cree_le }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="carte bloc">
+    <h2>Qualité du dernier chargement</h2>
+    {% if lot %}
+    <p>
+        Lot <b>{{ lot.lot }}</b> : <b>{{ lot.acceptees }}</b> lignes acceptées,
+        <b>{{ lot.rejetees }}</b> écartées, {{ lot.inserees }} nouvelles lignes insérées
+        ({{ lot.execute_le }}). Les lignes écartées ne sont pas perdues : elles sont
+        conservées ci-dessous pour correction à la source.
+    </p>
+    <p>
+        {% for motif, nombre in lot.motifs.items() %}
+        <span class="alerte">{{ nombre }} × {{ motif }}</span>
+        {% endfor %}
+    </p>
+    <table>
+        <thead><tr><th class="nombre">Ligne</th><th>Motif</th><th>Contenu reçu</th></tr></thead>
+        <tbody>
+            {% for r in lot.rejets %}
+            <tr><td class="nombre">{{ r.numero }}</td><td>{{ r.motif }}</td>
+                <td class="code petit">{{ r.contenu | tojson }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="vide">Aucun chargement : lancez <code>python -m mercier.cli chaine</code>.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

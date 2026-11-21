@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block titre %}Connexion - Mercier Data{% endblock %}
+{% block contenu %}
+<div class="connexion">
+    <div class="marque grande">Mercier<span>Data</span></div>
+    <p class="sous-titre">Plateforme de données d'Atelier Mercier</p>
+
+    <form method="post" action="/connexion" class="carte formulaire">
+        {% if erreur %}
+        <div class="message erreur">Identifiant ou mot de passe incorrect.</div>
+        {% endif %}
+        <label for="identifiant">Identifiant</label>
+        <input id="identifiant" name="identifiant" autocomplete="username" required autofocus>
+        <label for="motdepasse">Mot de passe</label>
+        <input id="motdepasse" name="motdepasse" type="password"
+               autocomplete="current-password" required>
+        <button type="submit">Se connecter</button>
+    </form>
+    <p class="mention">Accès réservé. Les tentatives de connexion sont journalisées.</p>
+</div>
+{% endblock %}

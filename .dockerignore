@@ -1,0 +1,16 @@
+# Sans ce fichier, COPY . . embarquerait l'environnement virtuel,
+# les caches, la base de développement et surtout le fichier .env.
+myVenv/
+.venv/
+venv/
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.env
+*.db
+zone_brute/
+java/*.class
+tests/
+.git/
+.vscode/
+docs/

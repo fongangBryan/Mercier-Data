@@ -1,0 +1,207 @@
+:root {
+  --bleu: #2B5B84;
+  --bleu-fonce: #1B3B57;
+  --jaune: #FFD43B;
+  --encre: #2C333D;
+  --gris-texte: #6B7684;
+  --fond: #F2F5F8;
+  --bordure: #E1E7ED;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Segoe UI", Inter, Arial, sans-serif;
+  color: var(--encre);
+  background: var(--fond);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+/* ------------------------------------------------ bandeau */
+header {
+  background: var(--bleu-fonce);
+  color: #fff;
+  padding: 0 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+header .marque { font-weight: 700; font-size: 18px; letter-spacing: .2px; }
+header .marque span { color: var(--jaune); }
+header nav { display: flex; gap: 20px; height: 100%; align-items: center; }
+header nav a {
+  color: #BFD2E2; text-decoration: none; font-size: 14px;
+  height: 100%; display: flex; align-items: center;
+  border-bottom: 3px solid transparent;
+}
+header nav a:hover { color: #fff; }
+header nav a.actif { color: #fff; border-bottom-color: var(--jaune); }
+
+/* ------------------------------------------------ structure */
+main { max-width: 1120px; margin: 0 auto; padding: 26px 24px 48px; }
+h1 { font-size: 22px; margin: 0; color: var(--bleu-fonce); font-weight: 650; }
+
+.accueil { display: flex; align-items: flex-end; justify-content: space-between;
+           gap: 20px; margin-bottom: 18px; }
+.accueil h1 { font-size: 24px; }
+.accueil p { margin: 3px 0 0; color: var(--gris-texte); font-size: 14px; }
+
+.filtre { display: flex; align-items: center; gap: 10px; }
+.filtre label { font-size: 11.5px; color: var(--gris-texte);
+                text-transform: uppercase; letter-spacing: .5px; }
+.filtre select { padding: 8px 11px; border: 1px solid var(--bordure);
+                 border-radius: 5px; font-size: 14px; font-family: inherit;
+                 background: #fff; min-width: 190px; }
+
+/* ------------------------------------------------ tuiles */
+.grille { display: grid; gap: 16px; }
+.g4 { grid-template-columns: repeat(4, 1fr); }
+.carte {
+  background: #fff;
+  border: 1px solid var(--bordure);
+  border-radius: 8px;
+}
+.tuile { padding: 15px 18px 16px; border-top: 3px solid var(--bleu); }
+.tuile .libelle {
+  font-size: 11.5px; color: var(--gris-texte); text-transform: uppercase;
+  letter-spacing: .7px; margin-bottom: 4px;
+}
+.tuile .valeur {
+  font-size: 26px; font-weight: 680; color: var(--bleu-fonce);
+  line-height: 1.1; font-variant-numeric: tabular-nums;
+}
+.tuile .detail { font-size: 12.5px; color: var(--gris-texte); margin-top: 3px; }
+
+/* ------------------------------------------------ couleurs d'état */
+:root {
+  --vert: #2E8B57;
+  --rouge: #C0392B;
+  --orange-fond: #FFF4E0;
+  --orange-texte: #A35C00;
+}
+
+/* ------------------------------------------------ compte connecté */
+header .compte { margin-left: auto; font-size: 13px; color: #BFD2E2;
+                 display: flex; align-items: center; gap: 8px; }
+header .compte b { color: #fff; }
+header .compte a { color: #fff; }
+header .compte .code { color: #BFD2E2; }
+
+.badge {
+  display: inline-block; padding: 1px 8px; border-radius: 10px;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .5px;
+  font-weight: 650; background: var(--bordure); color: var(--bleu-fonce);
+}
+.badge.administrateur { background: var(--jaune); color: var(--bleu-fonce); }
+.badge.gerant { background: #DCE7F1; }
+.badge.active { background: #DFF1E6; color: var(--vert); }
+.badge.inactive { background: #F6E0DD; color: var(--rouge); }
+
+.code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 12.5px;
+        color: var(--bleu); }
+.petit { font-size: 11.5px; word-break: break-all; }
+
+.alerte {
+  display: inline-block; margin: 8px 6px 0 0; padding: 2px 10px;
+  border-radius: 12px; font-size: 12px;
+  background: var(--orange-fond); color: var(--orange-texte);
+  border: 1px solid #F3D3A1;
+}
+.alerte::before { content: "● "; }
+
+/* ------------------------------------------------ blocs et grilles */
+.grille { margin-bottom: 16px; }
+.g2 { grid-template-columns: 1fr 1fr; }
+.g2-large { grid-template-columns: 3fr 2fr; }
+.bloc { padding: 16px 18px; margin-bottom: 16px; }
+.grille .bloc { margin-bottom: 0; }
+.bloc h2 {
+  font-size: 12px; text-transform: uppercase; letter-spacing: .7px;
+  color: var(--bleu-fonce); margin: 0 0 14px; font-weight: 700;
+}
+.vide { color: var(--gris-texte); font-style: italic; }
+
+/* ------------------------------------------------ histogramme */
+.barres { display: flex; align-items: flex-end; gap: 16px; height: 220px;
+          padding-top: 10px; }
+.colonne { flex: 1; height: 100%; display: flex; flex-direction: column;
+           justify-content: flex-end; align-items: center; text-align: center; }
+.colonne i { display: block; width: 60%; max-width: 56px;
+             background: var(--bleu); border-radius: 3px 3px 0 0; }
+.colonne:hover i { background: var(--bleu-fonce); }
+.colonne .montant { font-size: 11.5px; font-weight: 650; margin-bottom: 4px; }
+.colonne .periode { font-size: 11px; color: var(--gris-texte); margin-top: 6px;
+                    white-space: nowrap; }
+.variation { font-size: 11px; font-weight: 650; }
+.hausse { color: var(--vert); }
+.baisse { color: var(--rouge); }
+
+/* ------------------------------------------------ jauges d'objectif */
+.jauge { margin-bottom: 14px; }
+.jauge .ligne { display: flex; gap: 10px; align-items: baseline; font-size: 13px; }
+.jauge .chiffres { margin-left: auto; color: var(--gris-texte); font-size: 12px; }
+.piste { height: 7px; background: var(--bordure); border-radius: 4px;
+         overflow: hidden; margin: 5px 0 3px; }
+.piste i { display: block; height: 100%; background: var(--bleu); }
+.piste.atteint i { background: var(--vert); }
+.jauge .note { font-size: 11.5px; color: var(--gris-texte); }
+
+/* ------------------------------------------------ tableaux */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-size: 10.5px; text-transform: uppercase;
+     letter-spacing: .6px; color: var(--gris-texte); font-weight: 650;
+     padding: 6px 8px; border-bottom: 1px solid var(--bordure); }
+td { padding: 7px 8px; border-bottom: 1px solid var(--fond); vertical-align: top; }
+.nombre { text-align: right; font-variant-numeric: tabular-nums; }
+td small { color: var(--gris-texte); }
+tr.inactive td { opacity: .55; }
+
+/* ------------------------------------------------ formulaires */
+.formulaire { display: flex; flex-direction: column; gap: 4px; }
+.formulaire label { font-size: 11px; text-transform: uppercase; letter-spacing: .5px;
+                    color: var(--gris-texte); margin-top: 8px; }
+.formulaire input, .formulaire select {
+  padding: 8px 10px; border: 1px solid var(--bordure); border-radius: 5px;
+  font: inherit; background: #fff;
+}
+.formulaire input:focus, .formulaire select:focus {
+  outline: 2px solid var(--bleu); outline-offset: -1px;
+}
+button {
+  font: inherit; cursor: pointer; border: 0; border-radius: 5px;
+  background: var(--bleu-fonce); color: #fff; padding: 9px 14px;
+}
+.formulaire button { margin-top: 14px; }
+button:hover { background: var(--bleu); }
+button.lien { background: none; color: var(--bleu); padding: 0;
+              text-decoration: underline; font-size: 12px; }
+
+.message { padding: 10px 14px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+.message.succes { background: #DFF1E6; color: #1D5E3A; }
+.message.erreur { background: #F6E0DD; color: #8A2A1F; }
+
+/* ------------------------------------------------ connexion */
+.connexion { max-width: 360px; margin: 60px auto 0; text-align: center; }
+.marque.grande { font-size: 28px; font-weight: 700; color: var(--bleu-fonce); }
+.marque.grande span { color: var(--jaune); text-shadow: 0 0 1px var(--bleu-fonce); }
+.sous-titre { color: var(--gris-texte); margin: 4px 0 22px; font-size: 13px; }
+.connexion .formulaire { padding: 20px; text-align: left; }
+.connexion .message { margin-bottom: 4px; }
+.mention { font-size: 11.5px; color: var(--gris-texte); margin-top: 16px; }
+.erreur-page { max-width: 520px; margin: 40px auto; text-align: center; }
+
+/* ------------------------------------------------ petits écrans */
+@media (max-width: 860px) {
+  .g4 { grid-template-columns: 1fr 1fr; }
+  .g2, .g2-large { grid-template-columns: 1fr; }
+  .accueil { flex-direction: column; align-items: flex-start; }
+  header { flex-wrap: wrap; height: auto; padding: 10px 16px; gap: 12px; }
+  header .compte { margin-left: 0; }
+  main { padding: 18px 16px 40px; }
+  .bloc { overflow-x: auto; }
+  .barres { gap: 6px; }
+  .colonne i { width: 80%; }
+  .colonne .periode { white-space: normal; font-size: 10px; }
+  .colonne .montant { font-size: 10px; }
+}

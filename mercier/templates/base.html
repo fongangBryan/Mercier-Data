@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block titre %}Mercier Data{% endblock titre %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <div class="marque">Mercier<span>Data</span></div>
+        {% if compte %}
+        <nav aria-label="Navigation principale">
+            <a href="/" class="{{ 'actif' if actif == 'tableau' }}">Tableau de bord</a>
+            {% if compte.role == 'administrateur' %}
+            <a href="/administration" class="{{ 'actif' if actif == 'administration' }}">Administration</a>
+            {% endif %}
+            <a href="/docs">API</a>
+        </nav>
+        <div class="compte">
+            <b>{{ compte.nom }}</b>
+            <span class="badge {{ compte.role }}">{{ compte.role }}</span>
+            {% if compte.boutique %}<span class="code">{{ compte.boutique }}</span>{% endif %}
+            · <a href="/deconnexion">Se déconnecter</a>
+        </div>
+        {% endif %}
+    </header>
+    <main>{% block contenu %}{% endblock %}</main>
+</body>
+</html>
